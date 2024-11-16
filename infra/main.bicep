@@ -30,7 +30,6 @@ param openAIApiVersion string ='2024-08-01-preview'
 // Search and APIM SKU
 param searchServiceIndexName string = 'icecream-chat'
 param searchServiceSkuName string = 'standard'
-param apimSkuName string = 'developer'
 // Storage
 param storageServiceSku object = { name: 'Standard_LRS' } 
 param storageServiceImageContainerName string = 'images'
@@ -87,7 +86,6 @@ module resources 'resources.bicep' = {
     searchServiceSkuName: searchServiceSkuName
     storageServiceSku: storageServiceSku
     storageServiceImageContainerName: storageServiceImageContainerName
-    apimSkuName: apimSkuName
     // appSpId: appSp.id
     location: location
     locationAI: 'eastus'
@@ -103,5 +101,3 @@ output app_url string = resources.outputs.url // URL for the deployed app
 output azure_tenant_id string = tenant().tenantId // Tenant ID
 output azure_subscription_id string = subscription().subscriptionId // Subscription ID
 output azure_subscription_name string = subscription().displayName // Subscription ID
-
-

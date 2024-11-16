@@ -3,29 +3,21 @@ param resourceToken string
 
 param openai_api_version string
 
-param openAiSkuName string
+param openAiSkuName string = 'F0' // Free tier for Cognitive Services, if available
 // param openAiLocation string
-// Removing model deployments
-// param chatGptDeploymentCapacity int 
-// param chatGptDeploymentName string
-// param chatGptModelName string 
-// param chatGptModelVersion string
-// param embeddingDeploymentName string 
-// param embeddingDeploymentCapacity int
-// param embeddingModelName string 
 
-//Search Service and APIM SKU
-param searchServiceSkuName string = 'standard'
+// Search Service and APIM SKU
+param searchServiceSkuName string = 'basic' // No free tier for Azure Search
 param searchServiceIndexName string = 'icecream-chat'
-param apimSkuName string
+// param apimSkuName string
 
-// Storage SkU
-param storageServiceSku object
+// Storage SKU
+param storageServiceSku object = { name: 'Standard_LRS' } // Standard_LRS is the lowest cost tier
 param storageServiceImageContainerName string
 
 param location string
 param locationAI string = 'eastus'
-// Servuce Principal
+// Service Principal
 // param appSpId string
 @secure()
 
@@ -37,7 +29,7 @@ var search_name = toLower('${name}search${resourceToken}')
 var webapp_name = toLower('${name}-webapp-${resourceToken}')
 var appservice_name = toLower('${name}-app-${resourceToken}')
 var aivision_name = toLower('${name}-vision-${resourceToken}')
-var apim_name  = toLower('${name}-apim-${resourceToken}')
+//var apim_name  = toLower('${name}-apim-${resourceToken}')
 var appinsights_name = toLower('${name}-ai-${resourceToken}')
 var multiservice_name = toLower('${name}-multiservice-${resourceToken}')
 var cvdomain_name = toLower('${name}-cvdomain-${resourceToken}')
@@ -362,7 +354,8 @@ resource azureopenai 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
     name: openAiSkuName
   }
 }
-// API Management Service
+// apim_name
+/*
 resource apiManagementService 'Microsoft.ApiManagement/service@2021-08-01' = {
   name: apim_name
   location: location
@@ -389,6 +382,7 @@ resource apiManagementApi 'Microsoft.ApiManagement/service/apis@2021-08-01' = {
     ]
   }
 }
+*/
 // Multi-service account for Azure OpenAI Studio
 resource multiServiceAccount 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
   name: multiservice_name
@@ -475,4 +469,3 @@ resource acr 'Microsoft.ContainerRegistry/registries@2022-12-01' = {
     ]
   }
 output url string = 'https://${webApp.properties.defaultHostName}'
-
